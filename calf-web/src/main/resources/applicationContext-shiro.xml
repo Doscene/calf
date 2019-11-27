@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <!-- 密码加密 -->
+    <bean id="hashedCredentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="MD5" />
+        <property name="hashIterations" value="3" />
+        <!--<property name="hashSalted" value="true" />-->
+    </bean>
+    <!-- 权限验证 -->
+    <bean id="securityRealm" class="com.github.doscene.calf.security.SecurityRealm">
+        <constructor-arg type="com.github.doscene.calf.service.security.RealmService" ref="realmServiceImpl" />
+        <property name="credentialsMatcher" ref="hashedCredentialsMatcher" />
+    </bean>
+    <!-- 安全管理 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="securityRealm" />
+    </bean>
+    <!-- 权限过滤 -->
+    <bean id="authcFilter" class="com.github.doscene.calf.security.ShiroAuthcFilter">
+        <property name="passwordParam" value="password" />
+        <property name="usernameParam" value="username" />
+    </bean>
+    <!-- servlet过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="filterChainDefinitions">
+            <value>
+                /static/**=anon
+                /api/**=anon
+                /ws/**=anon
+                /login/register=anon
+                /login/toRegister=anon
+                /login/captcha=anon
+                /login/logOut=logout
+                /druid/**=authc
+                /swagger-ui.html=authc,roles[admin]
+                /**=authc
+            </value>
+        </property>
+        <property name="filters">
+            <util:map>
+                <entry key="authc" value-ref="authcFilter" />
+            </util:map>
+        </property>
+        <property name="loginUrl" value="/login" />
+        <property name="successUrl" value="/index" />
+        <property name="unauthorizedUrl" value="/unauth" />
+        <property name="securityManager" ref="securityManager" />
+    </bean>
+    <!-- 将shiro bean的生命周期交给spring管理 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+    <!-- 开启Shiro的注解 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+        depends-on="lifecycleBeanPostProcessor" />
+</beans>

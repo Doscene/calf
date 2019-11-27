@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <!-- 同时开启json格式的支持 -->
+    <mvc:annotation-driven conversion-service="conversionService" />
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.github.doscene.calf.web.converter.DateConverter" />
+            </set>
+        </property>
+    </bean>
+    <!-- spring mvc 扫描所有的controller 但是不扫描service -->
+    <context:component-scan base-package="com.github.doscene" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController" />
+    </context:component-scan>
+   <!-- <context:component-scan base-package="org.activiti" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController" />
+    </context:component-scan>-->
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" /><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+    </bean>
+    <mvc:default-servlet-handler />
+    <!--解决静态资源加载问题-->
+    <!-- <mvc:resources mapping="/**" location="/"/>-->
+
+    <!--设置文件上传-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="1024000" />
+    </bean>
+    <!-- 验证码 -->
+    <bean id="kaptchaConfig" class="com.google.code.kaptcha.util.Config">
+        <constructor-arg type="java.util.Properties" name="properties">
+            <util:properties>
+                <prop key="kaptcha.border">no</prop>
+                <prop key="kaptcha.textproducer.font.color">black</prop>
+                <prop key="kaptcha.image.width">101</prop>
+                <prop key="kaptcha.image.height">30</prop>
+                <prop key="kaptcha.textproducer.char.length">4</prop>
+                <prop key="kaptcha.textproducer.font.size">25</prop>
+            </util:properties>
+        </constructor-arg>
+    </bean>
+
+    <bean class="com.google.code.kaptcha.impl.DefaultKaptcha">
+        <property name="config" ref="kaptchaConfig" />
+    </bean>
+</beans>

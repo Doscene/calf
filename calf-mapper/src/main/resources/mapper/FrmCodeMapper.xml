@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.github.doscene.calf.mapper.FrmCodeMapper">
+
+    <insert id="insertOne" parameterType="com.github.doscene.calf.common.entity.FrmCode">
+        <selectKey keyProperty="pid" resultType="java.lang.String" order="BEFORE">
+            <include refid="com.github.doscene.calf.mapper.BaseMapper.frm_code_sequence" />
+        </selectKey>
+        insert into frm_code (pid, create_time, create_by, create_ip, expired_time,
+        department, code_token, code_name, code_text, parent_id,code_type,tree_type) VALUES
+        (#{pid,jdbcType=VARCHAR},sysdate,#{createBy,jdbcType=VARCHAR},#{createIp,jdbcType=VARCHAR},#{expiredTime,jdbcType=TIMESTAMP},
+        #{department,jdbcType=VARCHAR},#{codeToken,jdbcType=VARCHAR},#{codeName,jdbcType=VARCHAR},#{codeText,jdbcType=VARCHAR},
+        #{parentId,jdbcType=VARCHAR},#{codeType,jdbcType=VARCHAR},#{treeType,jdbcType=VARCHAR})
+    </insert>
+    <select id="selectFrmCodeByParentId" resultType="com.github.doscene.calf.common.entity.FrmCode"
+        parameterType="string">
+        select pid,
+               create_time,
+               update_time,
+               create_by,
+               create_ip,
+               valuable,
+               expired_time,
+               department,
+               code_token,
+               code_name,
+               code_text,
+               parent_id,
+               code_type,
+               tree_type
+        from frm_code
+        where valuable = '1'
+          and parent_id = #{parentId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectFrmCodeById" resultType="com.github.doscene.calf.common.entity.FrmCode">
+        select pid,
+               create_time,
+               update_time,
+               create_by,
+               create_ip,
+               valuable,
+               expired_time,
+               department,
+               code_token,
+               code_name,
+               code_text,
+               parent_id,
+               code_type,
+               tree_type
+        from frm_code
+        where pid = #{pid,jdbcType=VARCHAR}
+    </select>
+    <update id="updateFrmCode">
+        update frm_code
+        set update_time=sysdate,
+            expired_time=#{expiredTime,jdbcType=TIMESTAMP},
+            code_name=#{codeName,jdbcType=VARCHAR},
+            code_text=#{codeText,jdbcType=VARCHAR},
+            code_type=#{codeType,jdbcType=VARCHAR},
+            tree_type=#{treeType,jdbcType=VARCHAR},
+            code_token=#{codeToken,jdbcType=VARCHAR}
+        where pid = #{pid,jdbcType=VARCHAR}
+    </update>
+    <select id="selectFrmCodeByParentToken" resultType="com.github.doscene.calf.common.entity.FrmCode">
+        select a.pid,
+        create_time,
+        update_time,
+        create_by,
+        create_ip,
+        valuable,
+        expired_time,
+        department,
+        code_token,
+        code_name,
+        code_text,
+        parent_id,
+        code_type,
+        tree_type
+        from frm_code a,
+        (select pid from frm_code where code_token = #{token,jdbcType=VARCHAR}) b
+        where
+        <if test="text != null and text!=''">
+            a.code_text=#{text,jdbcType=VARCHAR} and
+        </if>
+        a.parent_id = b.pid
+    </select>
+    <select id="selectFrmCodeByToken" resultType="com.github.doscene.calf.common.entity.FrmCode">
+        select pid,
+               create_time,
+               update_time,
+               create_by,
+               create_ip,
+               valuable,
+               expired_time,
+               department,
+               code_token,
+               code_name,
+               code_text,
+               parent_id,
+               code_type,
+               tree_type
+        from frm_code
+        where code_token = #{token,jdbcType=VARCHAR} and valuable='1'
+    </select>
+</mapper>

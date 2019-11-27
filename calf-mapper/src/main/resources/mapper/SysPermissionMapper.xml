@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.doscene.calf.mapper.SysPermissionMapper">
+    <insert id="insertOne" parameterType="com.github.doscene.calf.common.entity.SysPermission">
+        <selectKey keyProperty="pid" resultType="java.lang.String" order="BEFORE">
+            <include refid="com.github.doscene.calf.mapper.BaseMapper.permission_sequence" />
+        </selectKey>
+        insert into sys_permission
+        (pid, create_time, create_by, create_ip, expired_time, permission_name,
+        permission_token, resource_id, operation_id,parent_id,tree_type,permission_type)
+        values
+        (#{pid,jdbcType=VARCHAR},sysdate,#{createBy,jdbcType=VARCHAR},#{createIp,jdbcType=VARCHAR},#{expiredTime,jdbcType=TIMESTAMP},#{permissionName,jdbcType=VARCHAR},#{permissionToken,jdbcType=VARCHAR},
+        #{resourceId,jdbcType=VARCHAR},#{operationId,jdbcType=VARCHAR},#{parentId,jdbcType=VARCHAR},#{treeType,jdbcType=VARCHAR},#{permissionType,jdbcType=VARCHAR})
+    </insert>
+    <resultMap id="sysPermissionResult" type="com.github.doscene.calf.common.entity.SysPermission" autoMapping="true">
+        <association property="resource" javaType="com.github.doscene.calf.common.entity.SysResource">
+            <id property="pid" column="r_pid" />
+            <result property="createTime" column="r_create_time" />
+            <result property="updateTime" column="r_update_time" />
+            <result property="createBy" column="r_create_by" />
+            <result property="createIp" column="r_create_ip" />
+            <result property="valuable" column="r_valuable" />
+            <result property="expiredTime" column="r_expired_time" />
+            <result property="department" column="r_department" />
+            <result property="resourceName" column="r_resource_name" />
+            <result property="resourceToken" column="r_resource_token" />
+            <result property="content" column="r_content" />
+        </association>
+        <association property="operation" javaType="com.github.doscene.calf.common.entity.SysOperation">
+            <id property="pid" column="r_pid" />
+            <result property="createTime" column="o_create_time" />
+            <result property="updateTime" column="o_update_time" />
+            <result property="createBy" column="o_create_by" />
+            <result property="createIp" column="o_create_ip" />
+            <result property="valuable" column="o_valuable" />
+            <result property="expiredTime" column="o_expired_time" />
+            <result property="department" column="o_department" />
+            <result property="operationName" column="o_operation_name" />
+            <result property="operationToken" column="o_operation_token" />
+        </association>
+    </resultMap>
+    <select id="selectSysPermissionByParentId" resultMap="sysPermissionResult">
+        select syspermission.pid,
+               syspermission.create_time,
+               syspermission.update_time,
+               syspermission.create_by,
+               syspermission.create_ip,
+               syspermission.valuable,
+               syspermission.expired_time,
+               syspermission.department,
+               syspermission.permission_name,
+               syspermission.permission_token,
+               syspermission.resource_id,
+               syspermission.operation_id,
+               syspermission.permission_type,
+               syspermission.parent_id,
+               syspermission.tree_type,
+               "resource".pid            r_pid,
+               "resource".create_time    r_create_time,
+               "resource".update_time    r_update_time,
+               "resource".create_by      r_create_by,
+               "resource".create_ip      r_create_ip,
+               "resource".valuable       r_valuable,
+               "resource".expired_time   r_expired_time,
+               "resource".department     r_department,
+               "resource".resource_name  r_resource_name,
+               "resource".resource_token r_resource_token,
+               "resource".content        r_content,
+               operation.pid             o_pid,
+               operation.create_time     o_create_time,
+               operation.update_time     o_update_time,
+               operation.create_by       o_create_by,
+               operation.create_ip       o_create_ip,
+               operation.valuable        o_valuable,
+               operation.expired_time    o_expired_time,
+               operation.department      o_department,
+               operation.operation_name  o_operation_name,
+               operation.operation_token o_operation_token
+        from sys_permission sysPermission
+                 left join sys_resource "resource" on sysPermission.resource_id = "resource".pid
+                 left join sys_operation operation on sysPermission.operation_id = operation.pid
+        where sysPermission.parent_id = #{parentId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectSysPermissionByPid" resultMap="sysPermissionResult">
+        select pid,
+               create_time,
+               update_time,
+               create_by,
+               create_ip,
+               valuable,
+               expired_time,
+               department,
+               permission_name,
+               permission_token,
+               resource_id,
+               operation_id,
+               permission_type,
+               parent_id,
+               tree_type,
+               sort
+        from sys_permission
+        where pid = #{pid,jdbcType=VARCHAR}
+    </select>
+    <update id="updateSysPermission">
+        update sys_permission set update_time=sysdate
+        <if test="permissionName !=null and permissionName !=''">
+            ,permission_name=#{permissionName,jdbcType=VARCHAR}
+        </if>
+        <if test="expiredTime !=null">
+            ,expired_time=#{expiredTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="resourceId !=null and resourceId != ''">
+            ,resource_id=#{resourceId,jdbcType=TIMESTAMP}
+        </if>
+        <if test="operationId !=null and operationId != ''">
+            ,operation_id=#{operation_id,jdbcType=TIMESTAMP}
+        </if>
+        where valuable='1' and pid=#{pid,jdbcType=VARCHAR}
+    </update>
+</mapper>

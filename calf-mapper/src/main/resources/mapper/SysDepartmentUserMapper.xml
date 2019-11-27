@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.github.doscene.calf.mapper.SysDepartmentUserMapper">
+
+    <insert id="insertOne" parameterType="com.github.doscene.calf.common.entity.SysDepartmentUser">
+        <selectKey keyProperty="pid" resultType="java.lang.String" order="BEFORE">
+            <include refid="com.github.doscene.calf.mapper.BaseMapper.sys_department_user_sequence" />
+        </selectKey>
+        insert into sys_department_user(pid, create_time, create_by, create_ip, expired_time,department)
+        values
+        (#{pid,jdbcType=VARCHAR},sysdate,#{createBy,jdbcType=VARCHAR},#{createIp,jdbcType=VARCHAR},#{expiredTime,jdbcType=TIMESTAMP},#{departmentId,jdbcType=VARCHAR})
+    </insert>
+</mapper>

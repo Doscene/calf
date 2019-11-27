@@ -1,0 +1,6 @@
+# Project exclude paths
+/calf-common/target/
+/calf-mapper/target/
+/calf-service/target/
+/calf-web/target/
+/out/

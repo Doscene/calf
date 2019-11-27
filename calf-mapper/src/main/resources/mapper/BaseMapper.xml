@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 所有mapper都能调用的公共mapper -->
+<mapper namespace="com.github.doscene.calf.mapper.BaseMapper">
+    <sql id="sys_user_pid_sequence">
+        select sys_user_pid_sequence.nextval
+        from DUAL
+    </sql>
+
+    <sql id="resource_sequence">
+        select RESOURCE_SEQUENCE.nextval
+        from DUAL
+    </sql>
+    <sql id="permission_sequence">
+        select permission_sequence.nextval
+        from dual
+    </sql>
+    <sql id="operation_sequence">
+        select operation_sequence.nextval
+        from dual
+    </sql>
+    <sql id="sys_user_permission_sequence">
+        select sys_user_permission_sequence.nextval
+        from dual
+    </sql>
+    <sql id="sys_department_user_sequence">
+        select sys_department_user_sequence.nextval
+        from dual
+    </sql>
+    <sql id="frm_code_sequence">
+        select frm_code_sequence.nextval
+        from dual
+    </sql>
+</mapper>

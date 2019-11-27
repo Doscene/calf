@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.github.doscene.calf.mapper.SysOperationMapper">
+    <insert id="insertOne" parameterType="com.github.doscene.calf.common.entity.SysOperation">
+        <selectKey keyProperty="pid" resultType="java.lang.String" order="BEFORE">
+            <include refid="com.github.doscene.calf.mapper.BaseMapper.operation_sequence" />
+        </selectKey>
+        insert into sys_operation (pid, create_time, create_by, create_ip, expired_time,
+        operation_name, operation_token) values
+        (#{pid,jdbcType=VARCHAR},sysdate,#{createBy,jdbcType=VARCHAR},#{createIp,jdbcType=VARCHAR},#{expiredTime,jdbcType=TIMESTAMP},
+        #{operationName,jdbcType=VARCHAR},#{operationToken,jdbcType=VARCHAR}
+        )
+    </insert>
+</mapper>

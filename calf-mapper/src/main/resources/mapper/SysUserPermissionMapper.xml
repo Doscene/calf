@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.github.doscene.calf.mapper.SysUserPermissionMapper">
+
+    <insert id="insertOne" parameterType="com.github.doscene.calf.common.entity.SysOperation">
+        <selectKey keyProperty="pid" resultType="java.lang.String" order="BEFORE">
+            <include refid="com.github.doscene.calf.mapper.BaseMapper.sys_user_permission_sequence" />
+        </selectKey>
+        insert into sys_operation (pid, create_time, create_by, create_ip, expired_time,
+        operation_name, operation_token) values
+        (#{pid,jdbcType=VARCHAR},sysdate,#{createBy,jdbcType=VARCHAR},#{createIp,jdbcType=VARCHAR},#{expiredTime,jdbcType=TIMESTAMP},
+        #{operationName,jdbcType=VARCHAR},#{operationToken,jdbcType=VARCHAR}
+        )
+    </insert>
+    <select id="selectUserPermissionByUserId" resultType="com.github.doscene.calf.common.entity.SysUserPermission">
+        select pid,
+               create_time,
+               update_time,
+               create_by,
+               create_ip,
+               valuable,
+               expired_time,
+               department,
+               user_id,
+               permission_id
+        from sys_user_permission
+        where valuable = '1'
+          and user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectPermissionByUserId" resultType="com.github.doscene.calf.common.entity.SysPermission">
+        select sp.pid,
+               sp.create_time,
+               sp.update_time,
+               sp.create_by,
+               sp.create_ip,
+               sp.valuable,
+               sp.expired_time,
+               sp.department,
+               sp.permission_name,
+               sp.permission_token,
+               sp.resource_id,
+               sp.operation_id
+        from sys_user_permission sup,
+             sys_permission sp
+        where sup.permission_Id = sp.pid(+)
+          and sup.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPermissionStringByUserId" resultType="java.lang.String">
+        select sp.permission_token || ':' || sr.resource_token || ':' || so.operation_token
+        from sys_user_permission sup,
+             sys_permission sp,
+             sys_resource sr,
+             sys_operation so
+        where sp.resource_id = so.pid(+)
+          and sp.resource_id = sr.pid(+)
+          and sup.permission_Id = sp.pid(+)
+          and sup.user_id = #{userId,jdbcType=VARCHAR}
+
+    </select>
+    <select id="selectDepartmentPermissionStringByUserId" resultType="java.lang.String">
+        select sp.permission_token || ':' || sr.resource_token || ':' || so.operation_token
+        from sys_department_user sdu,
+             sys_department_permission sdp,
+             sys_permission sp,
+             sys_operation so,
+             sys_resource sr
+        where sp.resource_id = sr.pid(+)
+          and sp.operation_id = so.pid(+)
+          and sdp.permission_id = sp.pid(+)
+          and sdu.department_id = sdp.department_id(+)
+          and sdu.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+</mapper>

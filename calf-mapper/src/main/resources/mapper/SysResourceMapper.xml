@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"><!-- 所有mapper都能调用的公共mapper -->
+<mapper namespace="com.github.doscene.calf.mapper.SysResourceMapper">
+
+    <insert id="insertOne">
+        <selectKey keyProperty="pid" resultType="java.lang.String" order="BEFORE">
+            <include refid="com.github.doscene.calf.mapper.BaseMapper.resource_sequence" />
+        </selectKey>
+        insert into sys_resource (pid, create_time, update_time, create_by, create_ip, expired_time,
+        department, resource_name, resource_token,valuable,content)
+        values
+        (#{pid,jdbcType=VARCHAR},sysdate,#{updateTime,jdbcType=TIMESTAMP},#{createBy,jdbcType=VARCHAR},
+        #{createIp,jdbcType=VARCHAR},#{expiredTime,jdbcType=TIMESTAMP},#{department,jdbcType=VARCHAR},
+        #{resourceName,jdbcType=VARCHAR},#{resourceToken,jdbcType=VARCHAR},'1',#{content,jdbcType=VARCHAR})
+    </insert>
+    <select id="selectByPid" resultType="com.github.doscene.calf.common.entity.SysResource">
+        select pid,
+               create_time,
+               update_time,
+               create_by,
+               create_ip,
+               valuable,
+               expired_time,
+               department,
+               resource_name,
+               resource_token,
+               content
+        from sys_resource
+        where pid = #{pid,jdbcType=VARCHAR}
+    </select>
+    <select id="selectResourceBySysResource" resultType="com.github.doscene.calf.common.entity.SysResource">
+        select pid,
+        create_time,
+        update_time,
+        create_by,
+        create_ip,
+        valuable,
+        expired_time,
+        department,
+        resource_name,
+        resource_token,
+        content
+        from sys_resource where valuable='1'
+        <if test="resourceName != null and resourceName != ''">
+            and  instr(resource_name,#{resourceName,jdbcType=VARCHAR}) >0
+        </if>
+        <if test="resourceToken != null and resourceToken != ''">
+            and instr(resource_name,#{resourceToken,jdbcType=VARCHAR}) >0
+        </if>
+    </select>
+    <update id="updateResource">
+        update sys_resource
+        set update_time=sysdate
+        <if test="resourceName!= null and resourceName!=''">
+            ,resource_name=#{resourceName,jdbcType=VARCHAR}
+        </if>
+        <if test="resourceToken!= null and resourceToken!=''">
+            ,resource_token=#{resourceToken,jdbcType=VARCHAR}
+        </if>
+        <if test="content!= null and content!=''">
+            ,content=#{content,jdbcType=VARCHAR}
+        </if>
+        <if test="expiredTime != null">
+            ,expired_time=#{expiredTime,jdbcType=TIMESTAMP}
+        </if>
+        where pid=#{pid,jdbcType=VARCHAR} and valuable='1'
+    </update>
+    <delete id="deleteResource">
+        delete
+        from sys_resource
+        where pid = #{pid,jdbcType=VARCHAR}
+    </delete>
+</mapper>

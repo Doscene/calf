@@ -79,7 +79,7 @@
         from sys_permission sysPermission
                  left join sys_resource "resource" on sysPermission.resource_id = "resource".pid
                  left join sys_operation operation on sysPermission.operation_id = operation.pid
-        where sysPermission.parent_id = #{parentId,jdbcType=VARCHAR}
+        where sysPermission.parent_id = #{parentId,jdbcType=VARCHAR} order by syspermission.sort
     </select>
     <select id="selectSysPermissionByPid" resultMap="sysPermissionResult">
         select pid,

@@ -1,0 +1,14 @@
+{
+  "servers": [
+    {
+      "host": "192.186.8.10",
+      "path": "/root",
+      "encoding": "UTF-8"
+    },
+    {
+      "host": "192.186.8.11",
+      "path": "/root",
+      "encoding": "GBK"
+    }
+  ]
+}

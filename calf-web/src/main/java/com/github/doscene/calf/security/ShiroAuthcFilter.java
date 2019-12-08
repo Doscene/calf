@@ -1,5 +1,7 @@
 package com.github.doscene.calf.security;
 
+import com.github.doscene.calf.common.entity.SysUser;
+import com.github.doscene.calf.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.shiro.authc.AuthenticationException;
@@ -9,6 +11,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -26,6 +29,12 @@ import java.util.UUID;
  */
 @Slf4j
 public class ShiroAuthcFilter extends FormAuthenticationFilter {
+    private final SysUserMapper sysUserMapper;
+
+    @Autowired
+    public ShiroAuthcFilter(SysUserMapper sysUserMapper) {
+        this.sysUserMapper = sysUserMapper;
+    }
 
     /**
      * <h1>登录成功</h1>
@@ -36,14 +45,15 @@ public class ShiroAuthcFilter extends FormAuthenticationFilter {
      */
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
-      /*  try {
-            SysUser user = UserUtils.getUser();
-            user.setLastLoginIp(request.getRemoteAddr());
-            user.setLastLoginTime(new Date());
-            sysUserMapper.updateLoginState(user);
+        try {
+            SysUser newU=new SysUser();
+            newU.setLastLoginIp(request.getRemoteAddr());
+            newU.setLoginName(UserUtils.getUserName());
+            newU.setLastLoginTime(new Date());
+            sysUserMapper.editSysUser(newU);
         } catch (Throwable t) {
             log.error("登录状态变更失败", t);
-        }*/
+        }
         issueSuccessRedirect(request, response);
         return false;
     }

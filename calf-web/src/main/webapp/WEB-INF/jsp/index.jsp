@@ -163,7 +163,13 @@
                     sideMenu += '</li>';
                     $userSideMenu.append(sideMenu);
                 });
-                $userSideMenu.find('li a:first').trigger('click');
+              var ft=  $userSideMenu.find('li a:first');
+              console.log(ft[0]);
+              if(ft[0]){
+                  ft.trigger('click');
+              }else{
+                  $contentFrame.attr("src",'');
+              }
             }
         }, function (reason) {
 

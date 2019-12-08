@@ -3,6 +3,7 @@ package com.github.doscene.calf.web.controller.sys;
 import com.github.doscene.calf.common.controller.BaseController;
 import com.github.doscene.calf.common.dto.RestfulResult;
 import com.github.doscene.calf.common.entity.SysPermission;
+import com.github.doscene.calf.security.UserUtils;
 import com.github.doscene.calf.service.sys.SysPermissionService;
 import com.google.common.base.Strings;
 import org.springframework.stereotype.Controller;
@@ -60,6 +61,7 @@ public class SysPermissionController extends BaseController<SysPermission> {
     @ResponseBody
     @RequestMapping("savePermission")
     public RestfulResult savePermission(SysPermission sysPermission) {
+        sysPermission.setCreateBy(UserUtils.getUserName());
         return execBoolean(sysPermissionService.saveSysPermission(sysPermission));
     }
 

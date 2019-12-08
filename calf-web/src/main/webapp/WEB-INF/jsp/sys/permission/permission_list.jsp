@@ -16,36 +16,7 @@
     <link rel="stylesheet" href="static/plugins/AdminLTE-2.3.0/css/skins/skin-blue.css">
     <link rel="stylesheet" href="static/plugins/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="static/plugins/zTree/css/metroStyle/metroStyle.css">
-    <style>
-        * {
-            font-size: 12px;
-        }
-
-        .form-table {
-            border-collapse: collapse;
-            width: 100%;
-
-        }
-
-        .form-table td, th {
-            border: 1px solid #eeeeee;
-            display: table-cell;
-            vertical-align: middle;
-            font-size: 12px;
-        }
-
-        .form-table .header-input {
-            color: black;
-            text-align: right;
-            max-width: 30px;
-            padding: 10px 5px;
-            width: 15%;
-        }
-
-        .form-table .body-input {
-            padding-left: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="static/plugins/calf/common/common.css">
 </head>
 <body>
 <div class="row">
@@ -133,6 +104,13 @@
                                                                     textName="codeName"
                                                                     className="form-control input-sm select2"
                                                                     valueName="codeText"/></td>
+                            </tr>
+                            <tr>
+                                <td class="header-input">排序</td>
+                                <td class="body-input">
+                                    <input type="text" name="sort" id="sort">
+                                </td>
+                                <td colspan="4"></td>
                             </tr>
                         </table>
                         <div class="form-group no-padding form-inline" id="permission-commit-group"

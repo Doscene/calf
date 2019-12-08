@@ -107,8 +107,13 @@
 <script src="static/plugins/jquery-2.2.4.js"></script>
 <script src="static/plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script>
+    <shiro:guest>
+        if (self !== top) {
+            parent.window.location.href="login";
+        }
+    </shiro:guest>
     <shiro:user>
-    location.href = "index";
+        location.href = "index";
     </shiro:user>
     var $username = $('#username');
     var $password = $('#password');

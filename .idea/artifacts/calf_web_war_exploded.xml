@@ -135,6 +135,12 @@
           <element id="library" level="project" name="Maven: org.apache.xmlgraphics:batik-svggen:1.7" />
           <element id="library" level="project" name="Maven: org.activiti:activiti-simple-workflow:5.22.0" />
           <element id="library" level="project" name="Maven: org.apache.xmlgraphics:xmlgraphics-commons:1.2" />
+          <element id="library" level="project" name="Maven: org.apache.axis:axis:1.4" />
+          <element id="library" level="project" name="Maven: commons-discovery:commons-discovery:0.2" />
+          <element id="library" level="project" name="Maven: org.apache.axis:axis-jaxrpc:1.4" />
+          <element id="library" level="project" name="Maven: org.apache.axis:axis-saaj:1.4" />
+          <element id="library" level="project" name="Maven: wsdl4j:wsdl4j:1.4" />
+          <element id="library" level="project" name="Maven: commons-net:commons-net:3.6" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.1.9.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.1.9.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.1.9.RELEASE" />

@@ -2,8 +2,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -32,7 +30,6 @@ public class JunTest {
                     e.printStackTrace();
                 }
             }
-
         } catch (
                 IOException e) {
             e.printStackTrace();
@@ -59,4 +56,10 @@ public class JunTest {
         ProcessEngine processEngine = configuration.buildProcessEngine();
         System.out.println(processEngine);
     }
+
+    @Test
+    public void t4() {
+
+    }
+
 }

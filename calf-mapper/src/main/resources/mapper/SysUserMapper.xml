@@ -90,13 +90,37 @@
     </delete>
     <update id="editSysUser">
         update sys_user
-        set true_name=#{trueName,jdbcType=VARCHAR},
-            age=#{age,jdbcType=INTEGER},
-            email=#{email,jdbcType=VARCHAR},
-            phone=#{phone,jdbcType=VARCHAR},
-            gender=#{gender,jdbcType=VARCHAR},
-            birthday=#{birthday,jdbcType=TIMESTAMP},
-            expired_time=#{expiredTime,jdbcType=TIMESTAMP}
+        set update_time=sysdate
+            <if test="trueName != null and trueName != ''">
+                ,true_name=#{trueName,jdbcType=VARCHAR}
+            </if>
+            <if test="age != null and age != ''">
+                ,age=#{trueName,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null and email != ''">
+                ,email=#{email,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone != ''">
+                ,phone=#{phone,jdbcType=VARCHAR}
+            </if>
+            <if test="gender != null and gender != ''">
+                ,gender=#{gender,jdbcType=VARCHAR}
+            </if>
+            <if test="birthday != null">
+                ,gender=#{birthday,jdbcType=TIMESTAMP}
+            </if>
+            <if test="expiredTime != null">
+                ,expired_time=#{expiredTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="lastLoginIp != null and lastLoginIp !=''">
+                ,last_login_ip=#{lastLoginIp,jdbcType=VARCHAR}
+            </if>
+            <if test="lastLoginTime != null">
+                ,last_login_time=#{lastLoginTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="headPortrait != null and headPortrait !=''">
+                ,head_portrait=#{headPortrait,jdbcType=TIMESTAMP}
+            </if>
         where login_name = #{loginName,jdbcType=VARCHAR}
     </update>
 </mapper>

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="static/plugins/AdminLTE-2.3.0/css/skins/skin-blue.css">
     <link rel="stylesheet" href="static/plugins/font-awesome-4.7.0/css/font-awesome.css">
     <script src="static/plugins/calf/common/common.js"></script>
+    <link rel="stylesheet" href="static/plugins/calf/common/common.css">
 </head>
 <body oncontextmenu="return false">
 <div class="row">

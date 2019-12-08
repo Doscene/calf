@@ -7,9 +7,9 @@
  -->
 <configuration status="error">
     <Properties>
-        <Property name="fileName">front.log</Property>
-       <!-- <Property name="backupFilePatch">${sys:catalina.home}/logs</Property>-->
-        <Property name="backupFilePath">d:/logs</Property>
+        <Property name="fileName">calf.log</Property>
+        <Property name="backupFilePatch">${sys:catalina.home}/logs</Property>
+        <!--<Property name="backupFilePath">d:/logs</Property>-->
     </Properties>
     <!--先定义所有的appender-->
     <appenders>

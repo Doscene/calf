@@ -1,12 +1,14 @@
 package com.github.doscene.calf.service.sys.impl;
 
 import com.github.doscene.calf.common.entity.SysUser;
+import com.github.doscene.calf.common.utils.FtpUtils;
 import com.github.doscene.calf.mapper.SysUserMapper;
 import com.github.doscene.calf.service.sys.SysUserService;
 import com.github.pagehelper.PageHelper;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.net.ftp.FtpClient;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +44,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (null != userMapper.selectByLoginName(user.getLoginName())) {
             return false;
         }
+
         //生成账号密码加密的盐值
         user.setSalt(UUID.randomUUID().toString());
         //加密后的密码存入数据库

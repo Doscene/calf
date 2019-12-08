@@ -13,12 +13,7 @@
     <link rel="stylesheet" href="static/plugins/AdminLTE-2.3.0/css/skins/skin-blue.css">
     <link rel="stylesheet" href="static/plugins/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="static/plugins/zTree/css/metroStyle/metroStyle.css">
-    <style>
-        * {
-            font-size: 12px;
-        }
-
-    </style>
+    <link rel="stylesheet" href="static/plugins/calf/common/common.css">
 </head>
 <body>
 <div class="row">
@@ -39,8 +34,7 @@
                     </div>
                     <div class="pull-right">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-flat  btn-sm"
-                                    onclick=""><i class="fa fa-plus text-green"></i>&nbsp;保存
+                            <button type="button" class="btn btn-default btn-flat  btn-sm" onclick=""><i class="fa fa-save text-green"></i>&nbsp;保存
                             </button>
                         </div>
                         <div class="form-group">
@@ -52,7 +46,15 @@
                 </form>
             </div>
             <div class="box-body no-padding">
-                <ul id="sys-permission-tree" class="ztree col-sm-4"></ul>
+                <div class="col-sm-4">
+                    <div><i class="fa fa-university"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授权列表</div>
+                    <ul id="sys-permission-tree" class="ztree"></ul>
+
+                </div>
+                <div class="col-sm-4">
+                    <div><i class="fa fa-university"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已授权列表</div>
+                    <ul id="sys-permission-tree-checked" class="ztree"></ul>
+                </div>
             </div>
         </div>
     </div>
@@ -134,8 +136,8 @@
                         if (temp === token) {
                             //console.log(temp);
                             checked = true;
-                        }else {
-                            checked=false;
+                        } else {
+                            checked = false;
                         }
                     }
                     node.push({

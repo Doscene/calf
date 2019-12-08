@@ -1,4 +1,6 @@
+import com.github.doscene.calf.ftp.FtpClientPool;
 import com.github.doscene.calf.service.sys.SysPermissionService;
+import org.apache.commons.net.ftp.FTPClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SpringTest {
     @Autowired
     SysPermissionService sysPermissionService;
+    @Autowired
+    FtpClientPool ftpClientPool;
 
     @Test
     public void t1() {
         sysPermissionService.getSysPermissionByParentId("1");
+    }
+
+    @Test
+    public void t2() throws Exception {
+        FTPClient client = ftpClientPool.borrowObject();
+        ftpClientPool.returnObject(client);
     }
 }

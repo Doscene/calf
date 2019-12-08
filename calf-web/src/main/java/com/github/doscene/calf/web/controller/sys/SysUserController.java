@@ -1,6 +1,5 @@
 package com.github.doscene.calf.web.controller.sys;
 
-import com.alibaba.fastjson.JSON;
 import com.github.doscene.calf.common.controller.BaseController;
 import com.github.doscene.calf.common.dto.RestfulResult;
 import com.github.doscene.calf.common.entity.SysPermission;
@@ -10,7 +9,6 @@ import com.github.doscene.calf.service.security.RealmService;
 import com.github.doscene.calf.service.sys.SysPermissionService;
 import com.github.doscene.calf.service.sys.SysUserService;
 import com.google.common.base.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +29,6 @@ import java.util.Set;
 @Controller
 @RequestMapping("sys/user")
 public class SysUserController extends BaseController<SysUser> {
-    @Autowired
     private final SysUserService userService;
     private final RealmService realmService;
     private final SysPermissionService sysPermissionService;
@@ -177,6 +174,5 @@ public class SysUserController extends BaseController<SysUser> {
         result.put("userPermissions",userP);
         return RestfulResult.ok(result);
     }
-
 
 }

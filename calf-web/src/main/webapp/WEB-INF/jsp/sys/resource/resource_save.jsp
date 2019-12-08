@@ -20,37 +20,7 @@
     <link rel="stylesheet" href="static/plugins/AdminLTE-2.3.0/css/skins/skin-blue.css">
     <link rel="stylesheet" href="static/plugins/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="static/plugins/AdminLTE-2.3.0/plugins/select2/select2.css">
-    <style>
-        * {
-            font-size: 12px;
-        }
-
-        .form-table {
-            border-collapse: collapse;
-            width: 100%;
-
-        }
-
-        .form-table td, th {
-            border: 1px solid #eeeeee;
-            display: table-cell;
-            vertical-align: middle;
-            font-size: 12px;
-        }
-
-        .form-table .header-input {
-            color: black;
-            text-align: right;
-            max-width: 30px;
-            padding: 10px 5px;
-            width: 10%;
-            font-weight:bold;
-        }
-
-        .form-table .body-input {
-            padding-left: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="static/plugins/calf/common/common.css">
 </head>
 <body>
 <div class="box">

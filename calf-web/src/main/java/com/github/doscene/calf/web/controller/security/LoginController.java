@@ -44,6 +44,7 @@ public class LoginController extends BaseController<Object> {
      */
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
     public String login() {
+        System.out.println(Thread.currentThread().getName());
         return "login";
     }
 
